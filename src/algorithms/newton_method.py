@@ -2,11 +2,6 @@ import numpy as np
 
 class Newton_Method:
     def __init__(self, max_iter=100, tol=1e-6):
-        """
-        initializes the Newton Method optimizer.
-            param max_iter: Maximum number of iterations
-            param tol: Tolerance for convergence
-        """
         self.max_iter = max_iter
         self.tol = tol
 
