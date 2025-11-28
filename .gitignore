@@ -1,0 +1,46 @@
+# --- Virtual environment ---
+venv
+.env
+.venv
+venv/
+
+
+# --- Python cache ---
+__pycache__
+.pyc
+.pyo
+.pyd
+.pdb
+
+# --- Build artifacts ---
+build
+dist
+.egg-info
+
+# --- Jupyter Notebook checkpoints ---
+.ipynb_checkpoints
+
+# --- Logs and temporary files ---
+.log
+.tmp
+.bak
+
+# --- IDE  Editor settings ---
+.vscode
+.idea
+.swp
+.swo
+
+# --- System files ---
+.DS_Store
+Thumbs.db
+
+# --- Local environment variables ---
+.env
+.env
+
+# --- Data cache (optional, use if you don't want data in repo) ---
+dataraw
+dataprocessed
+!dataraw.gitkeep
+!dataprocessed.gitkeep
