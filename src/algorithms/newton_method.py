@@ -1,30 +1,37 @@
-import math
 import numpy as np
 
 class Newton_Method:
-    """
-    Implements the Newton-Raphson method for finding the root of a function f(x)=0.
-    """
+    def __init__(self, max_iter=100, tol=1e-6):
+        """
+        initializes the Newton Method optimizer.
+            param max_iter: Maximum number of iterations
+            param tol: Tolerance for convergence
+        """
+        self.max_iter = max_iter
+        self.tol = tol
 
-    def optimize(self, f, df, initial_point, threshold=1e-6, max_iter=1000):
-        x = float(initial_point)
-        
-        for i in range(1, max_iter + 1):
-            f_x = f(x)
-            df_x = df(x)
+    def optimize(self, func, gradient, hessian, x0):
+        x_k = np.array(x0, dtype=float)
 
-            # Check for near-zero derivative (critical issue for Newton's method)
-            if np.isclose(df_x, 0):
-                print(f"Warning: Derivative is near zero at iteration {i}. Stopping.")
-                return x, i - 1
+        for i in range(self.max_iter):
+            grad_k = np.array(gradient(x_k))
+            hess_k = np.array(hessian(x_k))
 
-            x_old = x
-            x = x_old - (f_x / df_x)  # Newton-Raphson Step
-            
-            # Convergence Check
-            if math.fabs(x - x_old) < threshold:
-                return x, i
+            # Check for convergence (if gradient is close to zero)
+            if np.linalg.norm(grad_k) < self.tol:
+                print(f"Converged in {i} iterations.")
+                return x_k
 
-        # If loop completes without meeting the threshold
-        print(f"Warning: Did not converge after {max_iter} iterations.")
-        return x, max_iter
+            # Newton's update step
+            try:
+                # Solves H * delta = -grad
+                delta = np.linalg.solve(hess_k, -grad_k) 
+            except np.linalg.LinAlgError:
+                print("Hessian is singular (not invertible).")
+                print("Method failed.")
+                return x_k
+
+            x_k = x_k + delta
+
+        print("Reached maximum iterations without full convergence.")
+        return x_k
